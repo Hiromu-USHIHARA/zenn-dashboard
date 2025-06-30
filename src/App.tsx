@@ -17,7 +17,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sort, setSort] = useState('new');
-  const username = 'hiromu_ushihara';
+  const username = import.meta.env.VITE_ZENN_USER_NAME;
 
   const fetchArticles = async () => {
     try {
