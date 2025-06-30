@@ -4,6 +4,7 @@ import { IconAlertCircle, IconRefresh } from '@tabler/icons-react';
 import { ArticleCard } from './components/ArticleCard';
 import { StatsGrid } from './components/StatsGrid';
 import { fetchZennArticles } from './services/zennApi';
+import { LoadingSplash } from './components/LoadingSplash';
 import type { ZennArticle } from './types/zenn';
 
 const sortOptions = [
@@ -55,6 +56,10 @@ function App() {
     }
   }, [articles, sort]);
 
+  if (loading) {
+    return <LoadingSplash />;
+  }
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="xl">
@@ -84,7 +89,7 @@ function App() {
         )}
 
         <div style={{ position: 'relative' }}>
-          <LoadingOverlay visible={loading} />
+          {/* <LoadingOverlay visible={loading} /> 削除 */}
           
           {!loading && !error && (
             <>
