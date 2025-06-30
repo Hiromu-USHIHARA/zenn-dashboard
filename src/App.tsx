@@ -96,12 +96,12 @@ function App() {
           {!loading && !error && (
             <>
               <Stack gap="lg">
-                <div>
+      <div>
                   <Title order={2} size="h3" mb="md">
                     統計情報
                   </Title>
                   <StatsGrid articles={articles} />
-                </div>
+      </div>
 
                 <div>
                   <Group justify="space-between" align="end" mb="xs">
@@ -124,9 +124,9 @@ function App() {
                       </Grid.Col>
                     ))}
                   </Grid>
-                </div>
+      </div>
               </Stack>
-            </>
+    </>
           )}
         </div>
       </Stack>

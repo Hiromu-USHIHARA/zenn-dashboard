@@ -12,7 +12,7 @@ dayjs.locale('ja')
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <MantineProvider>
-      <App />
+    <App />
     </MantineProvider>
   </StrictMode>,
 )
