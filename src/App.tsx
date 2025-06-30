@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select } from '@mantine/core';
 import { IconAlertCircle, IconRefresh } from '@tabler/icons-react';
 import { ArticleCard } from './components/ArticleCard';
@@ -19,6 +19,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [sort, setSort] = useState('new');
   const username = import.meta.env.VITE_ZENN_USER_NAME;
+  const isFirstLoad = useRef(true);
 
   const fetchArticles = async () => {
     try {
@@ -31,11 +32,13 @@ function App() {
       console.error('記事取得エラー:', err);
     } finally {
       setLoading(false);
+      isFirstLoad.current = false;
     }
   };
 
   useEffect(() => {
     fetchArticles();
+    // eslint-disable-next-line
   }, []);
 
   const handleRefresh = () => {
@@ -56,7 +59,7 @@ function App() {
     }
   }, [articles, sort]);
 
-  if (loading) {
+  if (loading && isFirstLoad.current) {
     return <LoadingSplash />;
   }
 
@@ -89,8 +92,7 @@ function App() {
         )}
 
         <div style={{ position: 'relative' }}>
-          {/* <LoadingOverlay visible={loading} /> 削除 */}
-          
+          <LoadingOverlay visible={loading && !isFirstLoad.current} />
           {!loading && !error && (
             <>
               <Stack gap="lg">
