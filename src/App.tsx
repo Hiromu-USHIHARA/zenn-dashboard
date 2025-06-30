@@ -1,15 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group } from '@mantine/core';
+import { useState, useEffect, useMemo } from 'react';
+import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select } from '@mantine/core';
 import { IconAlertCircle, IconRefresh } from '@tabler/icons-react';
 import { ArticleCard } from './components/ArticleCard';
 import { StatsGrid } from './components/StatsGrid';
 import { fetchZennArticles } from './services/zennApi';
 import type { ZennArticle } from './types/zenn';
 
+const sortOptions = [
+  { value: 'new', label: '新着順' },
+  { value: 'like', label: 'いいね数順' },
+  { value: 'bookmark', label: 'ブックマーク数順' },
+];
+
 function App() {
   const [articles, setArticles] = useState<ZennArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sort, setSort] = useState('new');
   const username = 'hiromu_ushihara';
 
   const fetchArticles = async () => {
@@ -33,6 +40,20 @@ function App() {
   const handleRefresh = () => {
     fetchArticles();
   };
+
+  // ソート済み記事リスト
+  const sortedArticles = useMemo(() => {
+    const copied = [...articles];
+    switch (sort) {
+      case 'like':
+        return copied.sort((a, b) => b.liked_count - a.liked_count);
+      case 'bookmark':
+        return copied.sort((a, b) => b.bookmarked_count - a.bookmarked_count);
+      case 'new':
+      default:
+        return copied.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
+    }
+  }, [articles, sort]);
 
   return (
     <Container size="xl" py="xl">
@@ -76,11 +97,21 @@ function App() {
                 </div>
 
                 <div>
-                  <Title order={2} size="h3" mb="md">
-                    記事一覧 ({articles.length}件)
-                  </Title>
+                  <Group justify="space-between" align="end" mb="xs">
+                    <Title order={2} size="h3">
+                      記事一覧 ({articles.length}件)
+                    </Title>
+                    <Select
+                      data={sortOptions}
+                      value={sort}
+                      onChange={(value) => setSort(value ?? 'new')}
+                      label="ソート"
+                      size="sm"
+                      style={{ minWidth: 180 }}
+                    />
+                  </Group>
                   <Grid>
-                    {articles.map((article) => (
+                    {sortedArticles.map((article) => (
                       <Grid.Col key={article.id} span={{ base: 12, md: 6, lg: 4 }}>
                         <ArticleCard article={article} />
                       </Grid.Col>
