@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select } from '@mantine/core';
-import { IconAlertCircle, IconRefresh, IconBrandGithub } from '@tabler/icons-react';
+import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select, Paper } from '@mantine/core';
+import { IconAlertCircle, IconRefresh } from '@tabler/icons-react';
 import { ArticleCard } from './components/ArticleCard';
 import { StatsGrid } from './components/StatsGrid';
 import { fetchZennArticles } from './services/zennApi';
@@ -65,7 +65,7 @@ function App() {
 
   return (
     <Container size="xl" py="xl">
-      <Stack gap="xl">
+      <Paper shadow="sm" p="md" style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white', marginBottom: 32 }}>
         <Group justify="space-between" align="center">
           <div>
             <Title order={1} size="h2">
@@ -95,7 +95,8 @@ function App() {
             </Button>
           </Group>
         </Group>
-
+      </Paper>
+      <Stack gap="xl">
         {error && (
           <Alert icon={<IconAlertCircle size={16} />} title="エラー" color="red">
             {error}
@@ -107,12 +108,12 @@ function App() {
           {!loading && !error && (
             <>
               <Stack gap="lg">
-      <div>
+                <div>
                   <Title order={2} size="h3" mb="md">
                     統計情報
                   </Title>
                   <StatsGrid articles={articles} />
-      </div>
+                </div>
 
                 <div>
                   <Group justify="space-between" align="end" mb="xs">
@@ -135,9 +136,9 @@ function App() {
                       </Grid.Col>
                     ))}
                   </Grid>
-      </div>
+                </div>
               </Stack>
-    </>
+            </>
           )}
         </div>
       </Stack>
