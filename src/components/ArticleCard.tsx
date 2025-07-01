@@ -1,4 +1,4 @@
-import { Card, Text, Group, Badge, Avatar, Stack } from '@mantine/core';
+import { Card, Text, Group, Badge, Stack } from '@mantine/core';
 import { IconHeart, IconBookmark, IconMessage } from '@tabler/icons-react';
 import type { ZennArticle } from '../types/zenn';
 import dayjs from 'dayjs';
