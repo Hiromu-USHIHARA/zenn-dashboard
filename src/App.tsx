@@ -142,6 +142,9 @@ function App() {
           )}
         </div>
       </Stack>
+      <footer style={{ marginTop: 48, textAlign: 'center', color: '#888', fontSize: 14 }}>
+        このページはZenn公式のものではありません．
+      </footer>
     </Container>
   );
 }
