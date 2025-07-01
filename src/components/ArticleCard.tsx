@@ -28,10 +28,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <Card.Section>
           <Group justify="space-between" p="md">
             <Group>
-              <Avatar src={article.user.avatar_small_url} size="sm" />
+              {/* <Avatar src={article.user.avatar_small_url} size="sm" />
               <Text size="sm" c="dimmed">
                 {article.user.name}
-              </Text>
+              </Text> */}
+              <Text size="xl">{article.emoji}</Text>
             </Group>
             <Badge color={article.article_type === 'tech' ? 'blue' : 'green'}>
               {article.article_type === 'tech' ? '技術記事' : 'アイデア'}
@@ -41,7 +42,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
         <Stack gap="xs">
           <Group>
-            <Text size="xl">{article.emoji}</Text>
+            
             <Text fw={500} size="lg" lineClamp={2}>
               {article.title}
             </Text>
