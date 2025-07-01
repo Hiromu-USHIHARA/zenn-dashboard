@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select } from '@mantine/core';
-import { IconAlertCircle, IconRefresh } from '@tabler/icons-react';
+import { IconAlertCircle, IconRefresh, IconBrandGithub } from '@tabler/icons-react';
 import { ArticleCard } from './components/ArticleCard';
 import { StatsGrid } from './components/StatsGrid';
 import { fetchZennArticles } from './services/zennApi';
@@ -75,14 +75,25 @@ function App() {
               @{username} の記事一覧
             </Text>
           </div>
-          <Button
-            leftSection={<IconRefresh size={16} />}
-            onClick={handleRefresh}
-            loading={loading}
-            variant="light"
-          >
-            更新
-          </Button>
+          <Group>
+            <Button
+              component="a"
+              href="https://zenn.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+            >
+              Zennトップへ
+            </Button>
+            <Button
+              leftSection={<IconRefresh size={16} />}
+              onClick={handleRefresh}
+              loading={loading}
+              variant="light"
+            >
+              更新
+            </Button>
+          </Group>
         </Group>
 
         {error && (
