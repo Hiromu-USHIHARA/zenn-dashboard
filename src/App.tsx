@@ -143,7 +143,9 @@ function App() {
         </div>
       </Stack>
       <footer style={{ marginTop: 48, textAlign: 'center', color: '#888', fontSize: 14 }}>
-        このページはZenn公式のものではありません．
+        ※このページはZenn公式のものではありません．
+        <br />
+        designed by <a href="https://github.com/Hiromu-USHIHARA">Hiromu Ushihara</a>
       </footer>
     </Container>
   );
