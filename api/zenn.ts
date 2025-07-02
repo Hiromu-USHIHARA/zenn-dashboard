@@ -1,4 +1,15 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+interface VercelRequest {
+  query: Record<string, string | string[] | undefined>;
+  method?: string;
+  headers?: Record<string, string>;
+  body?: any;
+}
+
+interface VercelResponse {
+  status: (code: number) => VercelResponse;
+  json: (data: any) => void;
+  setHeader: (name: string, value: string) => VercelResponse;
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { username } = req.query;
