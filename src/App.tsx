@@ -8,9 +8,10 @@ import { LoadingSplash } from './components/LoadingSplash';
 import type { ZennArticle } from './types/zenn';
 
 const sortOptions = [
-  { value: 'new', label: '新着順' },
-  { value: 'like', label: 'いいね数順' },
-  { value: 'bookmark', label: 'ブックマーク数順' },
+  { value: 'new', label: '新着' },
+  { value: 'updated', label: '更新日' },
+  { value: 'like', label: 'いいね数' },
+  { value: 'bookmark', label: 'ブックマーク数' },
 ];
 
 function App() {
@@ -53,6 +54,8 @@ function App() {
         return copied.sort((a, b) => b.liked_count - a.liked_count);
       case 'bookmark':
         return copied.sort((a, b) => b.bookmarked_count - a.bookmarked_count);
+      case 'updated':
+        return copied.sort((a, b) => new Date(b.body_updated_at).getTime() - new Date(a.body_updated_at).getTime());
       case 'new':
       default:
         return copied.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
