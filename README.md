@@ -43,3 +43,5 @@ Githubリポジトリを作成した上で，[Vercel](https://vercel.com/)にデ
     - UIを整え，Zennトップへのリンクを追加し，Zenn公式のページではないことを明記しました
 - Jul. 3, 2025
     - 更新日順でのソート機能を追加しました
+    - セキュリティに関する問題を解消しました
+        - 参考: https://github.com/vercel/vercel/issues/13396
