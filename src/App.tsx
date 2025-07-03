@@ -148,7 +148,10 @@ function App() {
                               backgroundColor: 'var(--mantine-color-blue-1)',
                               padding: '4px 8px',
                               borderRadius: '4px',
-                              fontWeight: 500
+                              fontWeight: 500,
+                              marginLeft: 4,
+                              display: 'flex',
+                              alignItems: 'center',
                             }
                           }}
                         />
@@ -162,7 +165,10 @@ function App() {
                               backgroundColor: 'var(--mantine-color-violet-1)',
                               padding: '4px 8px',
                               borderRadius: '4px',
-                              fontWeight: 500
+                              fontWeight: 500,
+                              marginLeft: 4,
+                              display: 'flex',
+                              alignItems: 'center',
                             }
                           }}
                         />
