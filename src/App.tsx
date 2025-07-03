@@ -152,6 +152,7 @@ function App() {
                               marginLeft: 4,
                               display: 'flex',
                               alignItems: 'center',
+                              cursor: 'pointer',
                             }
                           }}
                         />
@@ -169,6 +170,7 @@ function App() {
                               marginLeft: 4,
                               display: 'flex',
                               alignItems: 'center',
+                              cursor: 'pointer',
                             }
                           }}
                         />
