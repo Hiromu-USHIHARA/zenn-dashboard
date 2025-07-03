@@ -34,7 +34,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
               </Text> */}
               <Text size="xl">{article.emoji}</Text>
             </Group>
-            <Badge color={article.article_type === 'tech' ? 'blue' : 'green'}>
+            <Badge color={article.article_type === 'tech' ? 'blue' : 'violet'}>
               {article.article_type === 'tech' ? '技術記事' : 'アイデア'}
             </Badge>
           </Group>

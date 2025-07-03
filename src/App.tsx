@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select, Paper } from '@mantine/core';
+import { Container, Title, Text, Stack, Grid, LoadingOverlay, Alert, Button, Group, Select, Paper, Checkbox } from '@mantine/core';
 import { IconAlertCircle, IconExternalLink, IconRefresh } from '@tabler/icons-react';
 import { ArticleCard } from './components/ArticleCard';
 import { StatsGrid } from './components/StatsGrid';
@@ -19,6 +19,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sort, setSort] = useState('new');
+  const [showTech, setShowTech] = useState(true);
+  const [showIdea, setShowIdea] = useState(true);
   const username = import.meta.env.VITE_ZENN_USER_NAME;
   const isFirstLoad = useRef(true);
 
@@ -46,9 +48,17 @@ function App() {
     fetchArticles();
   };
 
-  // ソート済み記事リスト
-  const sortedArticles = useMemo(() => {
-    const copied = [...articles];
+  // フィルタリングとソート済み記事リスト
+  const filteredAndSortedArticles = useMemo(() => {
+    // フィルタリング
+    let filtered = articles.filter(article => {
+      if (article.article_type === 'tech' && !showTech) return false;
+      if (article.article_type === 'idea' && !showIdea) return false;
+      return true;
+    });
+
+    // ソート
+    const copied = [...filtered];
     switch (sort) {
       case 'like':
         return copied.sort((a, b) => b.liked_count - a.liked_count);
@@ -60,7 +70,7 @@ function App() {
       default:
         return copied.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
     }
-  }, [articles, sort]);
+  }, [articles, sort, showTech, showIdea]);
 
   if (loading && isFirstLoad.current) {
     return <LoadingSplash />;
@@ -124,19 +134,59 @@ function App() {
                 <div>
                   <Group justify="space-between" align="end" mb="xs">
                     <Title order={2} size="h3">
-                      記事一覧 ({articles.length}件)
+                      記事一覧 ({filteredAndSortedArticles.length}件)
                     </Title>
-                    <Select
-                      data={sortOptions}
-                      value={sort}
-                      onChange={(value) => setSort(value ?? 'new')}
-                      label="ソート"
-                      size="sm"
-                      style={{ minWidth: 180 }}
-                    />
+                    <Group gap="md" align="end">
+                      <Group gap="xs" align="end" style={{ height: '100%' }}>
+                        <Checkbox
+                          label="技術記事"
+                          checked={showTech}
+                          onChange={(event) => setShowTech(event.currentTarget.checked)}
+                          size="md"
+                          styles={{
+                            label: {
+                              backgroundColor: 'var(--mantine-color-blue-1)',
+                              padding: '4px 8px',
+                              borderRadius: '4px',
+                              fontWeight: 500,
+                              marginLeft: 4,
+                              display: 'flex',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                            }
+                          }}
+                        />
+                        <Checkbox
+                          label="アイデア"
+                          checked={showIdea}
+                          onChange={(event) => setShowIdea(event.currentTarget.checked)}
+                          size="md"
+                          styles={{
+                            label: {
+                              backgroundColor: 'var(--mantine-color-violet-1)',
+                              padding: '4px 8px',
+                              borderRadius: '4px',
+                              fontWeight: 500,
+                              marginLeft: 4,
+                              display: 'flex',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                            }
+                          }}
+                        />
+                      </Group>
+                      <Select
+                        data={sortOptions}
+                        value={sort}
+                        onChange={(value) => setSort(value ?? 'new')}
+                        label="ソート"
+                        size="md"
+                        style={{ minWidth: 180 }}
+                      />
+                    </Group>
                   </Group>
                   <Grid>
-                    {sortedArticles.map((article) => (
+                    {filteredAndSortedArticles.map((article) => (
                       <Grid.Col key={article.id} span={{ base: 12, md: 6, lg: 4 }}>
                         <ArticleCard article={article} />
                       </Grid.Col>
