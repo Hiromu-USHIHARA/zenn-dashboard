@@ -21,6 +21,7 @@ function App() {
   const [sort, setSort] = useState('new');
   const [showTech, setShowTech] = useState(true);
   const [showIdea, setShowIdea] = useState(true);
+  const [userInfo, setUserInfo] = useState<{ username: string; avatar_small_url: string } | null>(null);
   const username = import.meta.env.VITE_ZENN_USER_NAME;
   const isFirstLoad = useRef(true);
 
@@ -30,6 +31,15 @@ function App() {
       setError(null);
       const data = await fetchZennArticles(username);
       setArticles(data.articles);
+      
+      // ユーザー情報を設定（最初の記事から取得）
+      if (data.articles.length > 0) {
+        const firstArticle = data.articles[0];
+        setUserInfo({
+          username: firstArticle.user.username,
+          avatar_small_url: firstArticle.user.avatar_small_url
+        });
+      }
     } catch (err) {
       setError('記事の取得に失敗しました。しばらく時間をおいてから再試行してください。');
       console.error('記事取得エラー:', err);
@@ -38,6 +48,24 @@ function App() {
       isFirstLoad.current = false;
     }
   };
+
+  // タイトルとファビコンを設定
+  useEffect(() => {
+    if (userInfo) {
+      // タイトルを設定
+      document.title = `Zennダッシュボード@${userInfo.username}`;
+      
+      // ファビコンを設定
+      const existingLink = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
+      const link = existingLink || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = userInfo.avatar_small_url;
+      if (!existingLink) {
+        document.getElementsByTagName('head')[0].appendChild(link);
+      }
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     fetchArticles();
